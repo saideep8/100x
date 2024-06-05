@@ -1,0 +1,44 @@
+<html>
+<script>
+    let timeout;
+    function debouncedFindInt() {
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            findInterest()
+        }, 1000);
+    }
+
+    async function findInterest() {
+        const principal = document.getElementById("principal").value;
+        const rate = document.getElementById("rate").value;
+        const time = document.getElementById("time").value;
+        console.log(principal);
+        console.log(time);
+        console.log(rate);
+        const res = await fetch("https://sum-server.100xdevs.com/interest?principal=" + principal + "&rate=" + rate + "&time=" + time)
+        const ans = await res.text();
+        document.getElementById("result").innerHTML = ans
+    }
+
+    function findInt() {
+        const principal = document.getElementById("principal")
+        const rate = document.getElementById("rate")
+        const time = document.getElementById("time")
+
+        fetch("https://sum-server.100xdevs.com/interest?principal=" + principal + "&rate=" + rate + "&time=" + time)
+            .then(function (response) {
+                response.text().then(function (ans) {
+                    document.getElementById("result").innerHTML = ans
+                })
+            })
+    }
+</script>
+
+<body>
+    <input oninput="debouncedFindInt()" id="principal" type="text" placeholder="Principal"><br><br>
+    <input oninput="debouncedFindInt()" id="rate" type="text" placeholder="rate"><br><br>
+    <input oninput="debouncedFindInt()" id="time" type="text" placeholder="time"><br><br>
+    <div id="result"></div>
+</body>
+
+</html>
